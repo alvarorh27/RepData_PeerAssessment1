@@ -13,6 +13,8 @@ library(dplyr)
 library(ggplot2)
 library(scales)
 library(ggplot2)
+library(knitr)
+
 
 ```
 
