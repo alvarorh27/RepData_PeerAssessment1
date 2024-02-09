@@ -7,32 +7,78 @@ output:
 ---
 
 # Environment
-```{r}
-library(magrittr)
-library(dplyr)
-library(ggplot2)
-library(scales)
-library(ggplot2)
 
+```r
+library(magrittr)
+```
+
+```
+## Warning: package 'magrittr' was built under R version 4.2.2
+```
+
+```r
+library(dplyr)
+```
+
+```
+## Warning: package 'dplyr' was built under R version 4.2.3
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
+library(ggplot2)
+```
+
+```
+## Warning: package 'ggplot2' was built under R version 4.2.3
+```
+
+```r
+library(scales)
+```
+
+```
+## Warning: package 'scales' was built under R version 4.2.3
+```
+
+```r
+library(ggplot2)
 ```
 
 
 
 ## Loading and preprocessing the data
-```{r, echo=TRUE}
+
+```r
 # Load the activity data
 data <- read.csv("activity.csv")
 
 # Preprocess the data
 data %<>%
   mutate(date=as.Date(as.character(date, format="%Y%m%d")))
-
 ```
 
 
 
 ## What is mean total number of steps taken per day?
-```{r, echo=TRUE}
+
+```r
 # Group steps by day
 data_grouped_day <- data %>% 
   group_by(date) %>% 
@@ -44,19 +90,42 @@ data_grouped_day <- data %>%
 png("figures/plot1.png")
 hist(data_grouped_day$steps, breaks=30, xlab="date", ylab="steps", main="Total number of steps taken each day")
 dev.off()
-hist(data_grouped_day$steps, breaks=30, xlab="date", ylab="steps", main="Total number of steps taken each day")
+```
 
+```
+## png 
+##   2
+```
+
+```r
+hist(data_grouped_day$steps, breaks=30, xlab="date", ylab="steps", main="Total number of steps taken each day")
+```
+
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
+
+```r
 # Print mean and median steps per day
 mean_before_imput <- round(mean(data_grouped_day$steps), 0)
 median_before_imput <- round(median(data_grouped_day$steps), 0)
 cat(sprintf('The mean steps taken per day is %d\n', mean_before_imput))
-cat(sprintf('The mean steps taken per day is %d', median_before_imput))
+```
 
+```
+## The mean steps taken per day is 9354
+```
+
+```r
+cat(sprintf('The mean steps taken per day is %d', median_before_imput))
+```
+
+```
+## The mean steps taken per day is 10395
 ```
 
 
 ## What is the average daily activity pattern?
-```{r, echo=TRUE}
+
+```r
 # Group steps by day
 data_grouped_interval <- data %>% 
   group_by(interval) %>% 
@@ -68,22 +137,44 @@ data_grouped_interval <- data %>%
 png("figures/plot2.png")
 with(data_grouped_interval, plot(x=interval, y=steps, type="l", xlab="interval", ylab="steps", main="Time series plot of average number of steps taken by day intervals"))
 dev.off()
-with(data_grouped_interval, plot(x=interval, y=steps, type="l", xlab="interval", ylab="steps", main="Time series plot of average number of steps taken by day intervals"))
+```
 
+```
+## png 
+##   2
+```
+
+```r
+with(data_grouped_interval, plot(x=interval, y=steps, type="l", xlab="interval", ylab="steps", main="Time series plot of average number of steps taken by day intervals"))
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
+
+```r
 # Find interval with max steps
 max_steps <- subset(data_grouped_interval, steps==max(steps))
 
 # Print mean and median steps per day
 cat(sprintf('The 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps is %d', max_steps$interval))
+```
 
+```
+## The 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps is 835
 ```
 
 
 ## Imputing missing values
-```{r, echo=TRUE, warning=FALSE}
+
+```r
 # Print nº of NA
 cat(sprintf('The total number of missing values in the dataset is %d\n', sum(is.na(data$steps))))
+```
 
+```
+## The total number of missing values in the dataset is 2304
+```
+
+```r
 # Calculate mean per 5-minute interval and impute steps by interval mean
 data_mean_interval <- data %>%
   group_by(interval) %>%
@@ -102,14 +193,39 @@ data_grouped_day_imputed <- data_mean_interval %>%
 png("figures/plot3.png")
 hist(data_grouped_day_imputed$steps, breaks=30, xlab="date", ylab="steps", main="Total number of steps taken each day")
 dev.off()
-hist(data_grouped_day_imputed$steps, breaks=30, xlab="date", ylab="steps", main="Total number of steps taken each day")
+```
 
+```
+## png 
+##   2
+```
+
+```r
+hist(data_grouped_day_imputed$steps, breaks=30, xlab="date", ylab="steps", main="Total number of steps taken each day")
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
+
+```r
 # Print mean and median steps per day after imputing
 mean_after_imput <- round(mean(data_grouped_day_imputed$steps), 0)
 median_after_imput <- round(median(data_grouped_day_imputed$steps), 0)
 cat(sprintf('The mean steps taken per day is %d\n', mean_after_imput))
-cat(sprintf('The mean steps taken per day is %d\n', median_after_imput))
+```
 
+```
+## The mean steps taken per day is 10766
+```
+
+```r
+cat(sprintf('The mean steps taken per day is %d\n', median_after_imput))
+```
+
+```
+## The mean steps taken per day is 10762
+```
+
+```r
 # Differences between mean and median before and after imputing
 if (mean_after_imput > mean_before_imput) {
   print("Mean after imputation is higher than mean before imputation")
@@ -118,7 +234,13 @@ if (mean_after_imput > mean_before_imput) {
 } else {
   print("Mean did not change after imputation")
 }
+```
 
+```
+## [1] "Mean after imputation is higher than mean before imputation"
+```
+
+```r
 if (median_after_imput > median_before_imput) {
   print("Median after imputation is higher than median before imputation")
 } else if (median_after_imput < median_before_imput) {
@@ -126,13 +248,16 @@ if (median_after_imput > median_before_imput) {
 } else {
   print("Median did not change after imputation")
 }
+```
 
-
+```
+## [1] "Median after imputation is higher than median before imputation"
 ```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r, echo=TRUE}
+
+```r
 # Create dataframe with type of day
 data_grouped_day_imputed_weekday <- data_mean_interval %>% 
   mutate(day_type = ifelse(weekdays(date) %in% c("lunes", "martes", "miércoles", "jueves", "viernes"), "weekday", "weekend")) %>%
@@ -142,7 +267,13 @@ data_grouped_day_imputed_weekday <- data_mean_interval %>%
   summarize(
     steps=mean(steps, na.rm=TRUE)
   )
+```
 
+```
+## `summarise()` has grouped output by 'interval'. You can override using the `.groups` argument.
+```
+
+```r
 # Plot histogram
 ggplot(data_grouped_day_imputed_weekday, aes(x = interval, y = steps, col = day_type)) +
   geom_line() +
@@ -150,8 +281,16 @@ ggplot(data_grouped_day_imputed_weekday, aes(x = interval, y = steps, col = day_
   labs(x = "Interval", y = "Steps", title = "Time series plot of average number of steps taken by day intervals,\nclassified into weekdays and weekend") +
   scale_color_manual(values = c("blue", "red")) +
   theme_minimal()
-ggsave("figures/plot4.png", plot = last_plot(), device = "png", dpi = 300)
+```
 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png)
+
+```r
+ggsave("figures/plot4.png", plot = last_plot(), device = "png", dpi = 300)
+```
+
+```
+## Saving 7 x 7 in image
 ```
 
 
