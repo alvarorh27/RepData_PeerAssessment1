@@ -6,22 +6,20 @@ output:
     keep_md: true
 ---
 
-# Environment
-```{r}
+## Environment
+```{r, warning=FALSE}
 library(magrittr)
 library(dplyr)
 library(ggplot2)
 library(scales)
 library(ggplot2)
 library(knitr)
-
-
 ```
 
 
 
 ## Loading and preprocessing the data
-```{r, echo=TRUE}
+```{r, echo=TRUE, warning=FALSE}
 # Load the activity data
 data <- read.csv("activity.csv")
 
@@ -34,7 +32,7 @@ data %<>%
 
 
 ## What is mean total number of steps taken per day?
-```{r, echo=TRUE}
+```{r, echo=TRUE, warning=FALSE}
 # Group steps by day
 data_grouped_day <- data %>% 
   group_by(date) %>% 
@@ -58,7 +56,7 @@ cat(sprintf('The mean steps taken per day is %d', median_before_imput))
 
 
 ## What is the average daily activity pattern?
-```{r, echo=TRUE}
+```{r, echo=TRUE, warning=FALSE}
 # Group steps by day
 data_grouped_interval <- data %>% 
   group_by(interval) %>% 
@@ -134,7 +132,7 @@ if (median_after_imput > median_before_imput) {
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r, echo=TRUE}
+```{r, echo=TRUE, warning=FALSE}
 # Create dataframe with type of day
 data_grouped_day_imputed_weekday <- data_mean_interval %>% 
   mutate(day_type = ifelse(weekdays(date) %in% c("lunes", "martes", "miércoles", "jueves", "viernes"), "weekday", "weekend")) %>%

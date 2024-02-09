@@ -6,7 +6,7 @@ output:
     keep_md: true
 ---
 
-# Environment
+## Environment
 
 ```r
 library(magrittr)
@@ -57,7 +57,7 @@ dev.off()
 hist(data_grouped_day$steps, breaks=30, xlab="date", ylab="steps", main="Total number of steps taken each day")
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png)
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 
 ```r
 # Print mean and median steps per day
@@ -104,7 +104,7 @@ dev.off()
 with(data_grouped_interval, plot(x=interval, y=steps, type="l", xlab="interval", ylab="steps", main="Time series plot of average number of steps taken by day intervals"))
 ```
 
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png)
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
 
 ```r
 # Find interval with max steps
@@ -160,7 +160,7 @@ dev.off()
 hist(data_grouped_day_imputed$steps, breaks=30, xlab="date", ylab="steps", main="Total number of steps taken each day")
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png)
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
 
 ```r
 # Print mean and median steps per day after imputing
@@ -239,7 +239,7 @@ ggplot(data_grouped_day_imputed_weekday, aes(x = interval, y = steps, col = day_
   theme_minimal()
 ```
 
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png)
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png)
 
 ```r
 ggsave("figures/plot4.png", plot = last_plot(), device = "png", dpi = 300)
